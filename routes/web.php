@@ -1,17 +1,13 @@
 <?php
-
-
 Route::get('/', 'LoginController@getLogin')->name('/');
 Route::post('/login', 'LoginController@postLogin')->name('login');
 Route::post('/logout', 'LoginController@getLogout')->name('logout');
-
 
 Route::get('/nopermission', function(){
   return view('layouts.nopermission');
 });
 
 Route::group(['middleware' => ['authen','roles']], function(){
-
   Route::get('/profile', [
     'as'  => 'profile.index',
     'uses'=> 'ProfileController@index'
@@ -36,12 +32,10 @@ Route::group(['middleware' => ['authen','roles']], function(){
     'as'    => 'student.index',
     'uses'  => 'StudentController@allStudent'
   ]);
-
 });
 
 // ADMIN
 Route::group(['middleware' => ['authen','roles'], 'roles' => ['admin']], function(){
-
   // GENERAL SETTINGS
   Route::get('/settings/general', [
     'as'    => 'settings.general',
@@ -51,7 +45,6 @@ Route::group(['middleware' => ['authen','roles'], 'roles' => ['admin']], functio
     'as'    => 'settings.store',
     'uses'  => 'DashboardController@settingsStore'
   ]);
-
 
   // MANAGE COURSE
   Route::get('/manage/course', [
@@ -137,14 +130,7 @@ Route::group(['middleware' => ['authen','roles'], 'roles' => ['admin']], functio
     'uses'  => 'CourseController@courseStudentTable'
   ]);
 
-
   /* ============ STUDENT REGISTRATION ============ */
-
-  // Route::get('/student', [
-  //   'as'    => 'student.index',
-  //   'uses'  => 'StudentController@allStudent'
-  // ]);
-
   Route::get('/student/show', [
     'as'    => 'student.show',
     'uses'  => 'StudentController@showStudent'
@@ -195,7 +181,6 @@ Route::group(['middleware' => ['authen','roles'], 'roles' => ['admin']], functio
     'uses'  => 'FeeController@storeCourseFees'
   ]);
 
-
   // STUDENT FEES
   Route::get('/student/fees/add', [
     'as'    => 'fees.add',
@@ -227,6 +212,4 @@ Route::group(['middleware' => ['authen','roles'], 'roles' => ['admin']], functio
     'as'    => 'fees.receipt',
     'uses'  => 'FeeController@printFeesReceipt'
   ]);
-
-
 });
